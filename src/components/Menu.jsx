@@ -75,14 +75,14 @@ async function Menu() {
                 >
                   Log In
                 </button>
-                <button
+                {/* <button
                   className="px-4 py-2 rounded-lg font-medium bg-blue-600 dark:bg-blue-800 text-white border border-blue-600 dark:border-blue-700 hover:bg-blue-700 dark:hover:bg-blue-600 transition-all"
                   type="submit"
                   name="action"
                   value="google"
                 >
                   Sign Up
-                </button>
+                </button> */}
               </form>
             )}
           </div>

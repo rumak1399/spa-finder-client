@@ -4,7 +4,6 @@ import { signIn, signOut } from "@/auth";
 
 export const authFunction = async (formData) => {
   const action = formData.get("action");
-  console.log("login", action);
   await signIn(action, {
     redirectTo: "/",
     // callbackUrl: "/",
