@@ -2,6 +2,9 @@ import { authFunction, logout } from "@/app/actions";
 import { auth } from "@/auth";
 import Link from "next/link";
 import React from "react";
+import LoginButton from "./LoginButton";
+import SignupButton from "./SignupButton";
+import AuthDialog from "./AuthDialog";
 
 async function Menu() {
   const session = await auth();
@@ -66,24 +69,7 @@ async function Menu() {
                 </form>
               </div>
             ) : (
-              <form action={authFunction} className="flex items-center gap-4">
-                <button
-                  className="px-4 py-2 rounded-lg font-medium  text-blue-600 dark:text-blue-400 border border-blue-600 dark:border-blue-400 hover:bg-blue-50 dark:hover:bg-zinc-950 transition-all"
-                  type="submit"
-                  name="action"
-                  value="google"
-                >
-                  Log In
-                </button>
-                {/* <button
-                  className="px-4 py-2 rounded-lg font-medium bg-blue-600 dark:bg-blue-800 text-white border border-blue-600 dark:border-blue-700 hover:bg-blue-700 dark:hover:bg-blue-600 transition-all"
-                  type="submit"
-                  name="action"
-                  value="google"
-                >
-                  Sign Up
-                </button> */}
-              </form>
+              <AuthDialog />
             )}
           </div>
         </div>
