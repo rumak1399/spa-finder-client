@@ -49,9 +49,9 @@ async function Menu() {
             </div>
           </nav>
 
-          <div className="flex items-center gap-4">
+          <div >
             {session?.user ? (
-              <div>
+              <div className="flex items-center gap-4">
                 <p>
                   <span className="text-gray-600 dark:text-gray-300">
                     {session?.user?.name}
