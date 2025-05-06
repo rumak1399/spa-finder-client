@@ -2,6 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Footer from "@/components/Footer";
 import Menu from "@/components/Menu";
+import ClientProvider from "@/utils/ClientProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,7 +14,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata = {
+ const metadata = {
   title: "SpaFinder - Find Massage & Spa Services Near You",
   description:
     "Discover and book the best massage and spa services in your area.",
@@ -25,9 +26,12 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen`}
       >
-        {/* <Menu /> */}
-        {children}
-        {/* <Footer /> */}
+        <ClientProvider>
+
+          <Menu />
+          {children}
+          <Footer />
+        </ClientProvider>
       </body>
     </html>
   );
