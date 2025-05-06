@@ -4,9 +4,9 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       {/* <Menu /> */}
-      <main className="flex flex-col gap-20 pb-20 container mx-auto max-w-7xl px-4">
+      <main className="flex flex-col gap-20 pb-20">
         {/* Hero Section */}
-        <section className="bg-rose-400 dark:bg-rose-800 py-20">
+        <section className="bg-blue-400 dark:bg-blue-800 py-20">
           <div className="container mx-auto max-w-7xl px-4">
             <div className="max-w-3xl mx-auto text-center">
               <h1 className="text-4xl font-bold mb-4 text-white">
