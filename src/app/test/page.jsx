@@ -1,9 +1,11 @@
-import React from 'react'
+import React from "react";
+import { getPostsByCategories } from "../actions/posts/posts";
 
-function page() {
-  return (
-    <div>page</div>
-  )
+async function page() {
+  const posts = await getPostsByCategories();
+  console.log(posts);
+
+  return <div>page</div>;
 }
 
-export default page
+export default page;

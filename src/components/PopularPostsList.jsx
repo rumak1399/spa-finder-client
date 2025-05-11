@@ -1,4 +1,6 @@
 import { getPosts } from "@/app/actions/posts/posts";
+import { calcReview } from "@/utils/calcReview";
+import { calcReviewStars } from "@/utils/calcReviewStars";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -6,37 +8,12 @@ import React from "react";
 async function PopularPostsList() {
   try {
     const posts = await getPosts();
-    // console.log("Posts", posts);
-
-    const calcReview = (reviews) => {
-      if (!reviews.length) return 0;
-      const sum = reviews.reduce((acc, val) => acc + val.rating, 0);
-      return sum / reviews.length;
-    };
-
-    const calcReviewStars = (reviews) => {
-      if (!reviews.length) return "No reviews";
-
-      const sum = reviews.reduce(
-        (acc, review) => acc + (review.rating || 0),
-        0
-      );
-      const average = sum / reviews.length;
-      const fullStars = Math.floor(average);
-      const halfStar = average % 1 >= 0.5;
-      const totalStars = 5;
-
-      let stars = "★".repeat(fullStars);
-      if (halfStar && fullStars < 5) stars += "½";
-      stars += "☆".repeat(totalStars - stars.length);
-
-      return stars;
-    };
 
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {posts?.map((item) => (
-          <div
+          <Link
+          href={`/post/${item?._id}`}
             key={item?._id}
             className="bg-white rounded-lg overflow-hidden shadow hover:shadow-md transition-shadow"
           >
@@ -72,15 +49,15 @@ async function PopularPostsList() {
 
               <div className="flex justify-between items-center mt-3">
                 <span className="font-semibold">$ {item?.price}</span>
-                <Link
+                <button
                   href="/services/1"
                   className="px-4 py-2 rounded-lg font-medium bg-blue-600 text-white border border-blue-600 hover:bg-blue-700 transition-all"
                 >
                   Book Now
-                </Link>
+                </button>
               </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     );

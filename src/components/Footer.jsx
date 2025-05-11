@@ -3,8 +3,8 @@ import React from "react";
 function Footer() {
   return (
     <footer className="bg-zinc-800 dark:bg-zinc-950 text-white py-8 mt-auto">
-      <div className="container mx-auto max-w-7xl px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div className="container mx-auto w-full md:w-7xl px-4">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-5">
           <div>
             <h3 className="text-xl font-bold mb-4">SpaFinder</h3>
             <p className="text-gray-300">
@@ -108,7 +108,7 @@ function Footer() {
             </div>
 
             <h4 className="font-semibold mb-2">Subscribe to our newsletter</h4>
-            <div className="flex">
+            <div className="flex w-fit">
               <input
                 type="email"
                 placeholder="Your email"

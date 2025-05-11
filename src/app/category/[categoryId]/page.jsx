@@ -1,13 +1,25 @@
-// app/category/[categoryId]/page.jsx
-import React from "react";
+  import ErrorDisplay from "@/components/ErrorDisplay";
+import SingleCategoryPage from "@/components/SingleCategory/SingleCategory";
+  import SpinnerLoading from "@/components/SpinnerLoading/SpinnerLoading";
 
-const SingleCategory = ({ params }) => {
-  return (
-    <div className="min-h-screen">
-      <h1>Category Page</h1>
-      <p>Category ID</p>
-    </div>
-  );
-};
+  import { ErrorBoundary } from "@/utils/ErrorBoundary";
 
-export default SingleCategory;
+  import React, { Suspense } from "react";
+
+  const SingleCategory = async ({ params }) => {
+    const { categoryId } = await  params;
+  console.log('LINR AT 14 ', categoryId);
+
+    return (
+      <div className="min-h-screen mx-auto max-w-7xl p-4 ">
+        {/* Posts Section */}
+        <Suspense fallback={<SpinnerLoading />}>
+          <ErrorBoundary fallback={<ErrorDisplay />}>
+          <SingleCategoryPage categoryId={categoryId && categoryId}/>
+          </ErrorBoundary>
+        </Suspense>
+      </div>
+    );
+  };
+
+  export default SingleCategory;
