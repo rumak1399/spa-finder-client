@@ -24,10 +24,10 @@
 // auth.js (v5-compatible)
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
-import clientPromise from "./lib/clientPromise";
 import dbConnect from "./lib/dbConnect";
 import User from "./lib/models/User";
+import client from "./lib/clientPromise";
+import { MongoDBAdapter } from "@auth/mongodb-adapter";
 
 export const {
   handlers: { GET, POST },
@@ -35,7 +35,7 @@ export const {
   signIn,
   signOut,
 } = NextAuth({
-  adapter: MongoDBAdapter(clientPromise),
+  adapter: MongoDBAdapter(client),
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
