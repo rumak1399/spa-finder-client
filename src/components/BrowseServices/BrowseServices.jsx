@@ -1,27 +1,17 @@
 import React from "react";
-import { getPostsByCategories } from "@/app/actions/posts/posts";
 import MapWithMarkers from "@/components/MapWithMarkers/MapWithMarkers";
-import { calcReview } from "@/utils/calcReview";
+import { MessageCircleMore } from "lucide-react";
+import { HiBuildingStorefront } from "react-icons/hi2";
 import { calcReviewStars } from "@/utils/calcReviewStars";
+import { calcReview } from "@/utils/calcReview";
 import Image from "next/image";
-import { MessageCircleMore, Store } from "lucide-react";
-import NotAvailable from "../NotAvailable/NotAvailable";
-import { MdFolderOff } from "react-icons/md";
-async function SingleCategoryPage({ categoryId }) {
-  console.log("LINE AT 4", categoryId);
+import { getPosts } from "@/app/actions/posts/posts";
 
-  const posts = await getPostsByCategories(categoryId);
-  console.log("posts", posts);
-  if (!posts || posts?.length === 0) {
+async function BrowseServices() {
+ const posts = await getPosts();
+
     return (
-      <NotAvailable
-        message="No posts available for this category"
-        icon={<MdFolderOff/>}
-      />
-    );
-  }
-  return (
-    <div className="flex flex-col md:flex-row justify-between gap-4">
+    <div  className="flex flex-col md:flex-row justify-between gap-4">
       <div className="w-full md:w-1/2">
         {posts?.map((item) => (
           <div
@@ -49,7 +39,8 @@ async function SingleCategoryPage({ categoryId }) {
                   </p>
                 </div>
                 <div className="flex gap-2">
-                  <Store />
+                  <HiBuildingStorefront />
+
                   <p>{item?.description}</p>
                 </div>
               </div>
@@ -73,4 +64,4 @@ async function SingleCategoryPage({ categoryId }) {
   );
 }
 
-export default SingleCategoryPage;
+export default BrowseServices;

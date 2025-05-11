@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 function Footer() {
@@ -6,7 +7,9 @@ function Footer() {
       <div className="container mx-auto w-full md:w-7xl px-4">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-5">
           <div>
+ <Link href="/">
             <h3 className="text-xl font-bold mb-4">SpaFinder</h3>
+ </Link>
             <p className="text-gray-300">
               Find and book the best massage and spa services near you.
             </p>
@@ -16,24 +19,24 @@ function Footer() {
             <h4 className="font-semibold mb-4">Services</h4>
             <ul className="space-y-2">
               <li>
-                <a href="#" className="text-gray-300 hover:text-white">
+                <Link href="massage-therapy" className="text-gray-300 hover:text-white">
                   Massage Therapy
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-300 hover:text-white">
+                <Link href="spa-treatments" className="text-gray-300 hover:text-white">
                   Spa Treatments
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-300 hover:text-white">
+                <Link href="wellness-services" className="text-gray-300 hover:text-white">
                   Wellness Services
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-300 hover:text-white">
+                <Link href="special-packages" className="text-gray-300 hover:text-white">
                   Special Packages
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -42,24 +45,24 @@ function Footer() {
             <h4 className="font-semibold mb-4">Company</h4>
             <ul className="space-y-2">
               <li>
-                <a href="#" className="text-gray-300 hover:text-white">
+                <Link href="/about" className="text-gray-300 hover:text-white">
                   About Us
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-300 hover:text-white">
+                <Link href="careers" className="text-gray-300 hover:text-white">
                   Careers
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-300 hover:text-white">
+                <Link href="/blog" className="text-gray-300 hover:text-white">
                   Blog
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-300 hover:text-white">
+                <Link href="press" className="text-gray-300 hover:text-white">
                   Press
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

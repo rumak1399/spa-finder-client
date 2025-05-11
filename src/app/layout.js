@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
- const metadata = {
+export const metadata = {
   title: "SpaFinder - Find Massage & Spa Services Near You",
   description:
     "Discover and book the best massage and spa services in your area.",

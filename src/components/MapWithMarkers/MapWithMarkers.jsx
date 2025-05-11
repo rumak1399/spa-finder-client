@@ -26,7 +26,7 @@ const locations = [
 
 export default function MapWithMarkers() {
   return (
-    <div className="w-full h-screen rounded-lg overflow-hidden">
+    <div className="w-full h-full rounded-lg overflow-hidden">
       <MapContainer
         center={[40.73061, -73.935242]}
         zoom={12}
