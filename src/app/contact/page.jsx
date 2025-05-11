@@ -427,11 +427,11 @@ export default function ContactPage() {
       </section>
 
       {/* Map Section */}
-      <section className="pb-20 px-4">
+      {/* <section className="pb-20 px-4">
         <div className="max-w-6xl mx-auto h-96 bg-white rounded-xl shadow-lg overflow-hidden">
           <MapWithMarkers />
         </div>
-      </section>
+      </section> */}
     </main>
   );
 }
