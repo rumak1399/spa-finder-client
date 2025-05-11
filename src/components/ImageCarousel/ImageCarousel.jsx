@@ -7,7 +7,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import Image from "next/image";
-import { MdOutlineArrowRightAlt } from "react-icons/md";
+// import { MdOutlineArrowRightAlt } from "react-icons/md";
 import { images } from "../../../assets/data/data";
 import {
   Dialog,
@@ -27,7 +27,7 @@ function ImageCarousel({title}) {
           <DialogTrigger>
             <div className="flex items-center gap-2">
               <span>See all photos</span>
-              <MdOutlineArrowRightAlt />
+              {/* <MdOutlineArrowRightAlt /> */}
             </div>
           </DialogTrigger>
         </div>

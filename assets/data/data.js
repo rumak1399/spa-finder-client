@@ -55,6 +55,7 @@ import {
   FcDepartment,
   FcPlanner,
 } from "react-icons/fc";
+import Dashboard from "@/app/dashboard/page";
 
 export const highlights = [
   {
@@ -97,3 +98,9 @@ export const images = [
   { id: 5, img: "/room5.jpeg" },
   { id: 6, img: "/room6.jpeg" },
 ];
+
+export const tablist = [
+  {id:1, title: 'Profile', value: 'profile'},
+  {id:2, title: 'My Posts', value: 'my-posts'},
+  {id:3, title: 'Upload Post', value: 'upload-post'},
+]

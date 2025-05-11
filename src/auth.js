@@ -63,14 +63,14 @@ export const {
       }
     },
   },
-  // callbacks: {
-  //   async session({ session }) {
-  //     await dbConnect();
-  //     const dbUser = await User.findOne({ email: session.user.email });
-  //     session.user.id = dbUser._id.toString();
-  //     session.user.role = dbUser.role;
-  //     session.user.isProvider = dbUser.isProvider;
-  //     return session;
-  //   },
-  // },
+  callbacks: {
+    async session({ session }) {
+      await dbConnect();
+      const dbUser = await User.findOne({ email: session.user.email });
+      session.user.id = dbUser._id.toString();
+      session.user.role = dbUser.role;
+      session.user.isProvider = dbUser.isProvider;
+      return session;
+    },
+  },
 });

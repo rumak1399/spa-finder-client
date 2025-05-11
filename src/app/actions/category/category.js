@@ -1,5 +1,5 @@
 export async function getCategories() {
-  const res = await fetch(`${process.env.API_LIVE_LINK}/categories/all`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_LIVE_LINK}/categories/all`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

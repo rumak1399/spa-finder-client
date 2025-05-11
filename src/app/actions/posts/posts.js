@@ -1,5 +1,5 @@
 export const getPosts = async () => {
-  const res = await fetch(`${process.env.API_LIVE_LINK}/post/getposts`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_LIVE_LINK}/post/getposts`, {
     method: "GET",
     cache: "no-store",
   });
@@ -12,7 +12,7 @@ export const getPosts = async () => {
 
 export async function getPostsByCategories(id) {
   console.log("action", id);
-  const res = await fetch(`${process.env.API_LIVE_LINK}/post/getpostsbycategory/${id}`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_LIVE_LINK}/post/getpostsbycategory/${id}`, {
     method: "GET",
     cache: "no-store",
   });
@@ -27,7 +27,7 @@ export async function getPostsByCategories(id) {
 
 export async function getSinglePost(id) {
   // console.log("action", id);
-  const res = await fetch(`${process.env.API_LIVE_LINK}/post/getsinglepost/${id}`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_LIVE_LINK}/post/getsinglepost/${id}`, {
     method: "GET",
     cache: "no-store",
   });

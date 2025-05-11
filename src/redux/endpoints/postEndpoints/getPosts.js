@@ -5,7 +5,10 @@ export const getPostEndpoints = baseUrl.injectEndpoints({
     getPosts: builder.query({
       query: () => "/post/getposts",
     }),
+    getPostsByUserId: builder.query({
+      query: (id)=> `/post/getpostsbyuserid/${id}`
+    })
   }),
 });
 
-export const {useGetPostsQuery} = getPostEndpoints;
+export const {useGetPostsQuery, useGetPostsByUserIdQuery} = getPostEndpoints;
