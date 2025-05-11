@@ -7,7 +7,6 @@ function AuthDialog() {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isSignupOpen, setIsSignupOpen] = useState(false);
 
-  // Function to handle switching between dialogs
   const switchToLogin = () => {
     setIsSignupOpen(false);
     setIsLoginOpen(true);
@@ -19,7 +18,7 @@ function AuthDialog() {
   };
 
   return (
-    <div className="flex items-center gap-4">
+    <div className="flex flex-col md:flex-row items-center gap-4 p-4 md:p-0">
       <LoginButton 
         isOpen={isLoginOpen} 
         setIsOpen={setIsLoginOpen} 
