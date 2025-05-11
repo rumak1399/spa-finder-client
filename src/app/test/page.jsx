@@ -3,7 +3,7 @@ import { getPostsByCategories } from "../actions/posts/posts";
 
 async function page() {
   const posts = await getPostsByCategories();
-  console.log(posts);
+  // console.log(posts);
 
   return <div>page test1</div>;
 }

@@ -21,7 +21,7 @@
 //     }),
 //   ],
 // });
-// auth.js
+// auth.js (v5-compatible)
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
@@ -29,12 +29,24 @@ import clientPromise from "./lib/clientPromise";
 import dbConnect from "./lib/dbConnect";
 import User from "./lib/models/User";
 
-export const authOptions = {
+export const {
+  handlers: { GET, POST },
+  auth,
+  signIn,
+  signOut,
+} = NextAuth({
   adapter: MongoDBAdapter(clientPromise),
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+         authorization: {
+        params: {
+          prompt: "consent",
+          access_type: "offline",
+          response_type: "code",
+        },
+      },
     }),
   ],
   events: {
@@ -61,8 +73,4 @@ export const authOptions = {
       return session;
     },
   },
-};
-
-const { handlers, auth, signIn, signOut } = NextAuth(authOptions);
-export { handlers, auth, signIn, signOut };
-export default NextAuth(authOptions);
+});
