@@ -5,7 +5,7 @@ async function page() {
   const posts = await getPostsByCategories();
   // console.log(posts);
 
-  return <div>page test1</div>;
+  return <div>page degub 3</div>;
 }
 
 export default page;
