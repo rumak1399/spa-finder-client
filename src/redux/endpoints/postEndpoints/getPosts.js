@@ -6,9 +6,16 @@ export const getPostEndpoints = baseUrl.injectEndpoints({
       query: () => "/post/getposts",
     }),
     getPostsByUserId: builder.query({
-      query: (id)=> `/post/getpostsbyuserid/${id}`
-    })
+      query: (id) => `/post/getpostsbyuserid/${id}`,
+    }),
+    getPostsByTags: builder.mutation({
+      query: (data) => ({
+        url: "/post/getpostsbycategoryandtags",
+        method: 'POST',
+        body: data,
+      }),
+    }),
   }),
 });
 
-export const {useGetPostsQuery, useGetPostsByUserIdQuery} = getPostEndpoints;
+export const { useGetPostsQuery, useGetPostsByUserIdQuery, useGetPostsByTagsMutation } = getPostEndpoints;
