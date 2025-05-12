@@ -4,18 +4,21 @@ import { useGetCategoriesQuery } from "@/redux/baseUrl";
 import { ImageUploader } from "@/utils/ImageUploader";
 import { VideoUploader } from "@/utils/VideoUploader";
 import Image from "next/image";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { IoCameraOutline } from "react-icons/io5";
-import { IoVideocamOutline } from "react-icons/io5";
+import { IoCameraOutline, IoVideocamOutline } from "react-icons/io5";
 import SpinnerLoading from "../SpinnerLoading/SpinnerLoading";
+import { useSession } from "next-auth/react";
+import ErrorDisplay from "../ErrorDisplay";
+import LocationPicker from "../LocationPicker/LocationPicker";
 
 export default function PostForm({ profile }) {
+  const { data: session, status } = useSession();
   const {
     data: categories,
     isLoading: categoriesLoading,
     isError: categoriesError,
   } = useGetCategoriesQuery();
-  console.log("categories", categories, "profile", profile.userId);
 
   const {
     register,
@@ -23,51 +26,73 @@ export default function PostForm({ profile }) {
     watch,
     setValue,
     reset,
+    getValues,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = async (data) => {
-    console.log(data);
-    // You can send this data to your API endpoint here
+  const watchImage = watch("image.url");
+  const watchVideo = watch("video.url");
+  const watchDiscount = watch("discount");
+// console.log(watch("location"));
 
-    try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_LIVE_LINK}/post`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...data, userId: profile.userId }),
-      });
-      const result = await res.json();
-
-      if (res.ok) {
-        alert(`Post added!`);
-        reset();
-        // setDisplay("products");
-      } else {
-        alert(`Failed to add product: ${result.message}`);
-      }
-    } catch (error) {
-      console.log("Error submitting product:", error);
-      alert("An error occurred. Please try again.");
+  // Set email from session into form
+  useEffect(() => {
+    if (session?.user?.email) {
+      setValue("email", session.user.email, { shouldValidate: true });
     }
+  }, [session?.user?.email, setValue]);
+
+  const onSubmit = async (data) => {
+   console.log(data);
+   
+    // if (!data.image?.url && !data.video?.url) {
+    //   alert("Either an image or a video is required.");
+    //   return;
+    // }
+
+    // try {
+    //   const res = await fetch(`${process.env.NEXT_PUBLIC_API_LIVE_LINK}/post`, {
+    //     method: "POST",
+    //     headers: { "Content-Type": "application/json" },
+    //     body: JSON.stringify({ ...data, userId: profile.userId }),
+    //   });
+    //   const result = await res.json();
+
+    //   if (res.ok) {
+    //     alert(`Post added!`);
+    //     reset();
+    //   } else {
+    //     alert(`Failed to add product: ${result.message}`);
+    //   }
+    // } catch (error) {
+    //   console.log("Error submitting product:", error);
+    //   alert("An error occurred. Please try again.");
+    // }
   };
 
-  const watchDiscount = watch("discount");
-  const mainImage = watch("image.url");
-  const mainVideo = watch("video.url");
+  if (status === "loading") {
+    return <SpinnerLoading />;
+  }
+
+  if (status === "unauthenticated") {
+    return <ErrorDisplay />;
+  }
 
   return (
-    <div className="w-full p-5  rounded-lg ">
+    <div className="w-full p-5 rounded-lg">
       <h2 className="text-2xl font-bold">Create New Post</h2>
+
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        {/* Post Image */}
         <div>
           Post Image
           <label htmlFor="file" className="block font-semibold mb-1"></label>
-          {mainImage ? (
+          {watchImage ? (
             <Image
               width={100}
               height={100}
               className="w-full h-[360px] rounded-md border border-gray-300 object-cover mb-2"
-              src={mainImage}
+              src={watchImage}
               alt="Main"
             />
           ) : (
@@ -76,29 +101,23 @@ export default function PostForm({ profile }) {
               <span>260x360</span>
             </div>
           )}
-          {/* 👇 ImageUploader integration */}
           <ImageUploader
             onUploadSuccess={(link) => {
               setValue("image.url", link, { shouldValidate: true });
-              setValue("video.alt", "product image");
+              setValue("image.alt", "product image");
             }}
           />
-          <input
-            type="hidden"
-            {...register("image.url", { required: "Image is required" })}
-          />
-          {errors.image?.url && (
-            <p className="text-red-500 text-sm">{errors.image.url.message}</p>
-          )}
+          <input type="hidden" {...register("image.url")} />
         </div>
-        {/* Title */}
+
+        {/* Post Video */}
         <div>
           <label htmlFor="video" className="block font-semibold mb-1">
             Post Video
           </label>
-          {mainVideo ? (
+          {watchVideo ? (
             <video
-              src={mainVideo}
+              src={watchVideo}
               controls
               className="w-full h-[360px] rounded-md border border-gray-300 object-cover mb-2"
             />
@@ -115,14 +134,35 @@ export default function PostForm({ profile }) {
               setValue("video.alt", "product video");
             }}
           />
-          <input
-            type="hidden"
-            {...register("video.url", { required: "Video is required" })}
-          />
-          {errors.video?.url && (
-            <p className="text-red-500 text-sm">{errors.video.url.message}</p>
-          )}
+          <input type="hidden" {...register("video.url")} />
         </div>
+
+        {/* Email - prefilled and disabled */}
+        <input
+          {...register("email", { required: "Email is required" })}
+          placeholder="Email"
+          className="w-full px-4 py-2 border rounded-md bg-gray-100 cursor-not-allowed"
+          disabled
+        />
+        {errors.email && <p className="text-red-500">{errors.email.message}</p>}
+
+        {/* Phone */}
+        <input
+          {...register("phone", { required: "Phone is required" })}
+          placeholder="Phone"
+          className="w-full px-4 py-2 border rounded-md"
+        />
+        {errors.phone && <p className="text-red-500">{errors.phone.message}</p>}
+
+        <LocationPicker
+          onChange={(coords) => setValue("location", coords)}
+          defaultValue={watch("location")}
+        />
+
+        {/* Hidden input to hold location object */}
+        <input type="hidden" {...register("location.lat")} />
+        <input type="hidden" {...register("location.lng")} />
+        {/* Title */}
         <input
           {...register("title", { required: "Title is required" })}
           placeholder="Title"
@@ -144,34 +184,6 @@ export default function PostForm({ profile }) {
           className="w-full px-4 py-2 border rounded-md"
         />
 
-        {/* Image URL & Alt */}
-        {/* <div className="grid grid-cols-2 gap-4">
-          <input
-            {...register("image.url")}
-            placeholder="Image URL"
-            className="w-full px-4 py-2 border rounded-md"
-          />
-          <input
-            {...register("image.alt")}
-            placeholder="Image Alt Text"
-            className="w-full px-4 py-2 border rounded-md"
-          />
-        </div> */}
-
-        {/* Video URL & Alt */}
-        {/* <div className="grid grid-cols-2 gap-4">
-          <input
-            {...register("video.url")}
-            placeholder="Video URL"
-            className="w-full px-4 py-2 border rounded-md"
-          />
-          <input
-            {...register("video.alt")}
-            placeholder="Video Alt Text"
-            className="w-full px-4 py-2 border rounded-md"
-          />
-        </div> */}
-
         {/* Price */}
         <input
           type="number"
@@ -180,13 +192,12 @@ export default function PostForm({ profile }) {
           className="w-full px-4 py-2 border rounded-md"
         />
 
-        {/* Discount Checkbox */}
+        {/* Discount */}
         <div className="flex items-center gap-2">
           <input type="checkbox" {...register("discount")} />
           <label>Discount Available</label>
         </div>
 
-        {/* Discount Amount - Conditional */}
         {watchDiscount && (
           <input
             type="number"
@@ -196,6 +207,7 @@ export default function PostForm({ profile }) {
           />
         )}
 
+        {/* Category */}
         <div>
           <label htmlFor="category" className="block mb-1 font-medium">
             Category
@@ -212,7 +224,6 @@ export default function PostForm({ profile }) {
               <option value="" disabled>
                 Select a category
               </option>
-
               {categories?.data.map((cat) => (
                 <option key={cat._id} value={cat._id}>
                   {cat?.name}
@@ -227,7 +238,7 @@ export default function PostForm({ profile }) {
           )}
         </div>
 
-        {/* Popular Checkbox */}
+        {/* Popular */}
         <div className="flex items-center gap-2">
           <input type="checkbox" {...register("popular")} />
           <label>Mark as Popular</label>

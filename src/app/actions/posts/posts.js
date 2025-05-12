@@ -69,3 +69,18 @@ export async function getPostsByTags({ categoryId, tags }) {
 
   return res.json();
 }
+
+export const getPostsByPopularity = async () => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_LIVE_LINK}/post/getpostsbypopularity`,
+    {
+      method: "GET",
+      cache: "no-store",
+    }
+  );
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch posts");
+  }
+  return res.json();
+};
