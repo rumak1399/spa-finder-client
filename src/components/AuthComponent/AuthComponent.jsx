@@ -19,7 +19,7 @@ async function AuthComponent() {
   return (
     <div>
       {session?.user ? (
-        <div className="flex flex-col md:flex-row items-center gap-4">
+        <div className="flex flex-col md:flex-row items-center gap-4 p-4">
           <DropdownMenu>
             <DropdownMenuTrigger>
               <p className="flex items-center gap-2">
