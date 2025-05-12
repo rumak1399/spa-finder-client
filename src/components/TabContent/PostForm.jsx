@@ -43,31 +43,31 @@ export default function PostForm({ profile }) {
   }, [session?.user?.email, setValue]);
 
   const onSubmit = async (data) => {
-   console.log(data);
+  //  console.log(data);
    
-    // if (!data.image?.url && !data.video?.url) {
-    //   alert("Either an image or a video is required.");
-    //   return;
-    // }
+    if (!data.image?.url && !data.video?.url) {
+      alert("Either an image or a video is required.");
+      return;
+    }
 
-    // try {
-    //   const res = await fetch(`${process.env.NEXT_PUBLIC_API_LIVE_LINK}/post`, {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify({ ...data, userId: profile.userId }),
-    //   });
-    //   const result = await res.json();
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_LIVE_LINK}/post`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...data, userId: profile.userId }),
+      });
+      const result = await res.json();
 
-    //   if (res.ok) {
-    //     alert(`Post added!`);
-    //     reset();
-    //   } else {
-    //     alert(`Failed to add product: ${result.message}`);
-    //   }
-    // } catch (error) {
-    //   console.log("Error submitting product:", error);
-    //   alert("An error occurred. Please try again.");
-    // }
+      if (res.ok) {
+        alert(`Post added!`);
+        reset();
+      } else {
+        alert(`Failed to add product: ${result.message}`);
+      }
+    } catch (error) {
+      console.log("Error submitting product:", error);
+      alert("An error occurred. Please try again.");
+    }
   };
 
   if (status === "loading") {
