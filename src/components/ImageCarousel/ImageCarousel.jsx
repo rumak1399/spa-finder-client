@@ -32,7 +32,7 @@ function ImageCarousel({title}) {
           </DialogTrigger>
         </div>
 
-        <div className="w-xs md:w-full relative h-[200px]">
+        <div className="w-xs md:w-full relative">
           <Carousel
             opts={{
               align: "start",
