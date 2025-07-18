@@ -1,7 +1,11 @@
 import React from "react";
 import { Pencil, Phone, MapPin, SquareArrowOutUpRight } from "lucide-react";
 
-async function reverseGeocode(lat, lng) {
+async function reverseGeocode(location) {
+if(typeof location === "string") {
+  return location
+}
+  const {lat, lng} = location
   try {
       if (!lat || !lng) {
     return "No Location Added"
@@ -28,7 +32,7 @@ async function reverseGeocode(lat, lng) {
 }
 
 function ContactInfo({phone, email, location}) {
-  const address = reverseGeocode(location.lat, location.lng)
+  const address = reverseGeocode(location)
   return (
     <div className="bg-white border border-zinc-100  px-5 py-3 rounded-md w-full flex flex-col gap-2">
       <div className="flex justify-between items-center  border-b border-zinc-200 py-2">
