@@ -4,7 +4,7 @@ import { Pencil, Phone, MapPin, SquareArrowOutUpRight } from "lucide-react";
 async function reverseGeocode(lat, lng) {
   try {
       if (!lat || !lng) {
-    return res.status(400).json({ error: "Missing coordinates" });
+    return "No Location Added"
   }
     const response = await fetch(
       `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`,
@@ -28,6 +28,7 @@ async function reverseGeocode(lat, lng) {
 }
 
 function ContactInfo({phone, email, location}) {
+  const address = reverseGeocode(location.lat, location.lng)
   return (
     <div className="bg-white border border-zinc-100  px-5 py-3 rounded-md w-full flex flex-col gap-2">
       <div className="flex justify-between items-center  border-b border-zinc-200 py-2">
@@ -41,7 +42,7 @@ function ContactInfo({phone, email, location}) {
       <div className="flex justify-between items-center  py-2">
         <div className="flex flex-col">
           <p className="font-bold text-blue-800">Get direction</p>
-          <p className="font-medium">{reverseGeocode(location.lat, location.lng)}</p>
+          <p className="font-medium">{address}</p>
         </div>
         <MapPin size={18} />
       </div>
