@@ -1,7 +1,18 @@
 "use client";
-import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, useMapEvents, useMap } from "react-leaflet";
 import { useEffect, useState } from "react";
 import L from "leaflet";
+
+
+const MapUpdater = ({ position }) => {
+  const map = useMap();
+
+  useEffect(() => {
+    map.setView(position); // move map center when position changes
+  }, [position, map]);
+
+  return null;
+};
 
 const LocationPicker = ({ onChange, defaultValue }) => {
   const [position, setPosition] = useState(
@@ -12,7 +23,7 @@ const LocationPicker = ({ onChange, defaultValue }) => {
   );
 
   const [locationName, setLocationName] = useState("");
-  //   const [inputAddress, setInputAddress] = useState("");
+    const [inputAddress, setInputAddress] = useState("");
 
   // Reverse geocode (coordinates ➜ location text)
   const reverseGeocode = async (lat, lng) => {
@@ -33,26 +44,26 @@ const LocationPicker = ({ onChange, defaultValue }) => {
   };
 
   // Forward geocode (location text ➜ coordinates)
-  //   const forwardGeocode = async (address) => {
-  //     try {
-  //       const response = await fetch(
-  //         `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`
-  //       );
-  //       const data = await response.json();
-  //       console.log(data);
+    const forwardGeocode = async (address) => {
+      try {
+        const response = await fetch(
+          `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`
+        );
+        const data = await response.json();
+        console.log(data);
 
-  //       if (data.length > 0) {
-  //         const { lat, lon } = data[0];
-  //         const newPos = { lat: parseFloat(lat), lng: parseFloat(lon) };
-  //         setPosition(newPos);
-  //         onChange(newPos);
-  //       } else {
-  //         alert("Location not found.");
-  //       }
-  //     } catch (error) {
-  //       console.error("Forward geocoding failed:", error);
-  //     }
-  //   };
+        if (data.length > 0) {
+          const { lat, lon } = data[0];
+          const newPos = { lat: parseFloat(lat), lng: parseFloat(lon) };
+          setPosition(newPos);
+          onChange(newPos);
+        } else {
+          alert("Location not found.");
+        }
+      } catch (error) {
+        console.error("Forward geocoding failed:", error);
+      }
+    };
 
   const MapEvents = () => {
     useMapEvents({
@@ -69,21 +80,24 @@ const LocationPicker = ({ onChange, defaultValue }) => {
   }, [position]);
 
   return (
-    <div className="space-y-4">
-      {/* <input
-        type="text"
-        placeholder="Enter address"
-        className="w-full p-2 border rounded"
-        value={inputAddress}
-        onChange={(e) => setInputAddress(e.target.value)}
-      />
-      <button
-        onClick={() => forwardGeocode(inputAddress)}
-        className="px-4 py-2 bg-blue-500 text-white rounded"
-      >
-        Search Address
-      </button> */}
+    <>
+    <div className="flex gap-2">
+        <input
+          type="text"
+          placeholder="Enter address"
+          className="w-full p-2 border rounded"
+          value={inputAddress}
+          onChange={(e) => setInputAddress(e.target.value)}
+        />
+        <button
+          onClick={() => forwardGeocode(inputAddress)}
+          className="px-4 py-2 bg-blue-500 text-white rounded"
+        >
+          Search
+        </button>
+      </div>
 
+    <div className="space-y-4">
       <MapContainer
         center={position}
         zoom={13}
@@ -104,12 +118,14 @@ const LocationPicker = ({ onChange, defaultValue }) => {
           })}
         />
         <MapEvents />
+        <MapUpdater position={position} />
       </MapContainer>
 
       <div className="mt-2 text-sm text-gray-700">
         <strong>Location:</strong> {locationName}
       </div>
     </div>
+    </>
   );
 };
 

@@ -33,6 +33,7 @@ export async function getPostsByCategories(id) {
 
 export async function getSinglePost(id) {
   // console.log("action", id);
+  console.log(`${process.env.NEXT_PUBLIC_API_LIVE_LINK}/post/getsinglepost/${id}`)
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_LIVE_LINK}/post/getsinglepost/${id}`,
     {

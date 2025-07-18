@@ -49,6 +49,7 @@ export default function PostForm({ profile }) {
       alert("Either an image or a video is required.");
       return;
     }
+    console.log(data)
 
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_LIVE_LINK}/post`, {

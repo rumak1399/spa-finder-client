@@ -18,7 +18,7 @@ async function SinglePost({ params }) {
         <div className="flex flex-col gap-10 border-b border-zinc-200 pb-5">
           <PostDetails post={post && post} />
           <div className="block md:hidden w-full">
-            <ContactInfo />
+            <ContactInfo phone={post.phone} email={post.email} location={post.location} />
           </div>
           <ActionButtons />
         </div>
@@ -38,7 +38,7 @@ async function SinglePost({ params }) {
       </div>
 
       <div className="hidden md:block fixed right-10 lg:right-34 top-20 w-1/4">
-        <ContactInfo />
+        <ContactInfo phone={post.phone} email={post.email} location={post.location} />
       </div>
     </div>
   );
