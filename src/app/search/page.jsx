@@ -41,9 +41,7 @@ async function Search({ searchParams }) {
             </p>
             <SearchForm
               categories={categories?.data}
-              tags={tags}
               selectedCategoryId={selectedCategoryId}
-              selectedTags={selectedTags}
             />
             {/* <form
               method="GET"

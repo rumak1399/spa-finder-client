@@ -9,9 +9,7 @@ import { useGetPostsByTagsMutation } from "@/redux/endpoints/postEndpoints/getPo
 
 export default function SearchForm({
   categories = [],
-  tags = [],
   selectedCategoryId = "",
-  selectedTags = [],
 }) {
   const router = useRouter();
   const [category, setCategory] = useState("");
@@ -71,13 +69,13 @@ useEffect(() => {
   }
 
   // Compare arrays deeply before setting
-  if (
-    selectedTags.length !== activeTags.length ||
-    !selectedTags.every((tag, i) => tag === activeTags[i])
-  ) {
-    setActiveTags(selectedTags);
-  }
-}, [selectedCategoryId, selectedTags]);
+  // if (
+  //   selectedTags.length !== activeTags.length ||
+  //   !selectedTags.every((tag, i) => tag === activeTags[i])
+  // ) {
+  //   setActiveTags(selectedTags);
+  // }
+}, [selectedCategoryId]);
 
 
   const toggleTag = (tag) => {
