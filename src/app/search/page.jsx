@@ -18,10 +18,13 @@ async function Search({ searchParams }) {
   const tags = await getTags();
 
   const selectedCategoryId = await searchParams?.category || "";
-  const selectedTags = await searchParams?.tags ? searchParams.tags.split(",") : [];
+  const selectedState = await searchParams?.state || "";
+  const selectedCity = await searchParams?.city || "";
+
   const posts = await getPostsByTags({
     categoryId: selectedCategoryId,
-    tags: selectedTags,
+    state: selectedState,
+    city: selectedCity
   });
   // console.log(selectedCategoryId, selectedTags, posts);
   return (

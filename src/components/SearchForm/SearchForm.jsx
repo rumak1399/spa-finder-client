@@ -23,6 +23,48 @@ export default function SearchForm({
   //   setActiveTags(selectedTags);
   // }, [selectedCategoryId, selectedTags]);
 
+  const [states, setStates] = useState([]);
+const [cities, setCities] = useState([]);
+const [selectedState, setSelectedState] = useState("");
+const [selectedCity, setSelectedCity] = useState("");
+const [cityLoading, setCityLoading] = useState(false);
+
+
+useEffect(() => {
+  const fetchStates = async () => {
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_LIVE_LINK}/location/all-state`);
+      const data = await res.json();
+      setStates(data.states);
+    } catch (error) {
+      console.error("Failed to fetch states:", error);
+    }
+  };
+
+  fetchStates();
+}, []);
+
+
+useEffect(() => {
+  if (!selectedState) return;
+  const fetchCities = async () => {
+    setCityLoading(true);
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_LIVE_LINK}/location/city-by-id/${selectedState}`);
+      const data = await res.json();
+      setCities(data.city);
+    } catch (error) {
+      console.error("Failed to fetch cities:", error);
+    } finally {
+      setCityLoading(false);
+    }
+  };
+
+  fetchCities();
+  setSelectedCity(""); // Reset city
+}, [selectedState]);
+
+
   useEffect(() => {
   if (selectedCategoryId !== category) {
     setCategory(selectedCategoryId);
@@ -45,21 +87,19 @@ export default function SearchForm({
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const params = new URLSearchParams();
-    if (category) params.set("category", category);
-    if (activeTags.length) params.set("tags", activeTags.join(","));
-    router.push(`/search?${params.toString()}`);
-    // try {
-    //   const response = await getPostsByTags({
-    //     categoryId: category,
-    //     tags: activeTags,
-    //   }).unwrap();
-    //   console.log("Fetched posts:", response);
-    // } catch (error) {
-    //   console.error("Failed to fetch posts:", error);
-    // }
-  };
+  e.preventDefault();
+  if (!selectedState || !selectedCity) {
+    alert("Please select both state and city.");
+    return;
+  }
+
+  const params = new URLSearchParams();
+  params.set("category", category);
+  params.set("state", selectedState);
+  params.set("city", selectedCity);
+  router.push(`/search?${params.toString()}`);
+};
+
 
   return (
     <form
@@ -77,6 +117,7 @@ export default function SearchForm({
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
                 className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 bg-white dark:bg-zinc-800 text-zinc-600 dark:text-zinc-200"
+                required
               >
                 <option value="">All types of massages</option>
                 {categories.map((cat) => (
@@ -88,17 +129,51 @@ export default function SearchForm({
             </ErrorBoundary>
           </Suspense>
         </div>
-
         <div className="flex-1">
-          <label className="block text-sm font-medium text-zinc-600 dark:text-zinc-200 mb-1">
-            Location
-          </label>
-          <input
-            type="text"
-            placeholder="Enter your address, city or zip code"
-            className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20"
-          />
-        </div>
+  <label className="block text-sm font-medium text-zinc-600 dark:text-zinc-200 mb-1">
+    State
+  </label>
+  <select
+    value={selectedState}
+    onChange={(e) => setSelectedState(e.target.value)}
+    className="w-full px-3 py-3 border border-gray-300 rounded-lg bg-white dark:bg-zinc-800 text-zinc-600 dark:text-zinc-200"
+    required
+  >
+    <option value="">Select a state</option>
+    {states.map((state) => (
+      <option key={state._id} value={state._id}>
+        {state.name}
+      </option>
+    ))}
+  </select>
+</div>
+
+<div className="flex-1">
+  <label className="block text-sm font-medium text-zinc-600 dark:text-zinc-200 mb-1">
+    City
+  </label>
+
+  {cityLoading ? (
+    <p className="text-gray-500">Loading cities...</p>
+  ) : (
+    <select
+      value={selectedCity}
+      onChange={(e) => setSelectedCity(e.target.value)}
+      className="w-full px-3 py-3 border border-gray-300 rounded-lg bg-white dark:bg-zinc-800 text-zinc-600 dark:text-zinc-200"
+      disabled={!selectedState}
+      required
+    >
+      <option value="">
+        {selectedState ? "Select a city" : "Select a state first"}
+      </option>
+      {cities.map((city) => (
+        <option key={city._id} value={city._id}>
+          {city.name}
+        </option>
+      ))}
+    </select>
+  )}
+</div>
 
         <div className="flex-1">
           <label className="block text-sm font-medium text-gray-600 mb-1">
@@ -112,8 +187,23 @@ export default function SearchForm({
           </button>
         </div>
       </div>
+    </form>
+  );
+}
 
-      <div className="flex flex-wrap gap-2 mt-3">
+ {/* <div className="flex-1">
+          <label className="block text-sm font-medium text-zinc-600 dark:text-zinc-200 mb-1">
+            Location
+          </label>
+          <input
+            type="text"
+            placeholder="Enter your address, city or zip code"
+            className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20"
+          />
+        </div> */}
+
+
+ {/* <div className="flex flex-wrap gap-2 mt-3">
         <Suspense fallback={<SpinnerLoading />}>
           <ErrorBoundary fallback={<ErrorDisplay />}>
             {tags.map((tag) => {
@@ -135,7 +225,4 @@ export default function SearchForm({
             })}
           </ErrorBoundary>
         </Suspense>
-      </div>
-    </form>
-  );
-}
+      </div> */}
