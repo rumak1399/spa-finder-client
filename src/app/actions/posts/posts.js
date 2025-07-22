@@ -50,10 +50,11 @@ export async function getSinglePost(id) {
   return res.json();
 }
 
-export async function getPostsByTags({ categoryId, tags }) {
+export async function getPostsByTags({ categoryId, state, city }) {
   const params = new URLSearchParams();
   if (categoryId) params.set("categoryId", categoryId);
-  if (tags && tags.length > 0) params.set("tags", tags.join(","));
+  if (state) params.set("state", state);
+  if (city) params.set("city", city);
   const url = `${
     process.env.NEXT_PUBLIC_API_LIVE_LINK
   }/post/getpostsbycategoryandtags?${params.toString()}`;
