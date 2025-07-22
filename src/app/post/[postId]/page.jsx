@@ -11,6 +11,8 @@ async function SinglePost({ params }) {
   const { postId } = await params;
   const post = await getSinglePost(postId);
 
+  console.log(post)
+
 
   return (
     <div className="min-h-screen mx-auto w-full md:w-7xl flex relative p-4">
@@ -38,7 +40,7 @@ async function SinglePost({ params }) {
       </div>
 
       <div className="hidden md:block fixed right-10 lg:right-34 top-20 w-1/4">
-        <ContactInfo phone={post.phone} email={post.email} location={post.location ? post.location : "No Address Added"} />
+        <ContactInfo phone={post.phone} email={post.email} location={post.fullAddress} />
       </div>
     </div>
   );

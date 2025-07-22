@@ -1,38 +1,38 @@
 import React from "react";
 import { Pencil, Phone, MapPin, SquareArrowOutUpRight } from "lucide-react";
 
-async function reverseGeocode(location) {
-if(typeof location === "string") {
-  return location
-}
-  const {lat, lng} = location
-  try {
-      if (!lat || !lng) {
-    return "No Location Added"
-  }
-    const response = await fetch(
-      `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`,
-     {
-        headers: {
-          "User-Agent": "spafinder.vercel.app/1.0 (rumak1399@gmail.com)",
-        },
-      }
-    );
+// async function reverseGeocode(location) {
+// if(typeof location === "string") {
+//   return location
+// }
+//   const {lat, lng} = location
+//   try {
+//       if (!lat || !lng) {
+//     return "No Location Added"
+//   }
+//     const response = await fetch(
+//       `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`,
+//      {
+//         headers: {
+//           "User-Agent": "spafinder.vercel.app/1.0 (rumak1399@gmail.com)",
+//         },
+//       }
+//     );
 
-    if (!response.ok) {
-      return "Unable to fetch address"
-    }
+//     if (!response.ok) {
+//       return "Unable to fetch address"
+//     }
 
-    const data = await response.json();
-    return data.display_name || "Unknown location";
-  } catch (error) {
-    console.error("Reverse geocoding failed:", error);
-    return "Unable to fetch address";
-  }
-}
+//     const data = await response.json();
+//     return data.display_name || "Unknown location";
+//   } catch (error) {
+//     console.error("Reverse geocoding failed:", error);
+//     return "Unable to fetch address";
+//   }
+// }
 
 function ContactInfo({phone, email, location}) {
-  const address = reverseGeocode(location)
+  // const address = reverseGeocode(location)
   return (
     <div className="bg-white border border-zinc-100  px-5 py-3 rounded-md w-full flex flex-col gap-2">
       <div className="flex justify-between items-center  border-b border-zinc-200 py-2">
@@ -46,7 +46,7 @@ function ContactInfo({phone, email, location}) {
       <div className="flex justify-between items-center  py-2">
         <div className="flex flex-col">
           <p className="font-bold text-blue-800">Get direction</p>
-          <p className="font-medium">{address}</p>
+          <p className="font-medium">{location}</p>
         </div>
         <MapPin size={18} />
       </div>
