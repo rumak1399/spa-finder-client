@@ -16,10 +16,11 @@ import NotAvailable from "@/components/NotAvailable/NotAvailable";
 async function Search({ searchParams }) {
   const categories = await getCategories();
   const tags = await getTags();
+  const resolvedSearchParams = await searchParams;
 
-  const selectedCategoryId = await searchParams?.category || "";
-  const selectedState = await searchParams?.state || "";
-  const selectedCity = await searchParams?.city || "";
+  const selectedCategoryId = resolvedSearchParams?.category || "";
+  const selectedState = resolvedSearchParams?.state || "";
+  const selectedCity = resolvedSearchParams?.city || "";
 
   const posts = await getPostsByTags({
     categoryId: selectedCategoryId,
