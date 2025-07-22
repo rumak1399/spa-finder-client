@@ -4,7 +4,7 @@ import { useGetCategoriesQuery } from "@/redux/baseUrl";
 import { ImageUploader } from "@/utils/ImageUploader";
 import { VideoUploader } from "@/utils/VideoUploader";
 import Image from "next/image";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { IoCameraOutline, IoVideocamOutline } from "react-icons/io5";
 import SpinnerLoading from "../SpinnerLoading/SpinnerLoading";
@@ -14,6 +14,10 @@ import LocationPicker from "../LocationPicker/LocationPicker";
 
 export default function PostForm({ profile }) {
   const { data: session, status } = useSession();
+  const [states, setStates] = useState([]);
+const [cities, setCities] = useState([]);
+const [selectedState, setSelectedState] = useState(null);
+const [cityLoading, setCityLoading] = useState(false);
   const {
     data: categories,
     isLoading: categoriesLoading,
@@ -41,6 +45,38 @@ export default function PostForm({ profile }) {
       setValue("email", session.user.email, { shouldValidate: true });
     }
   }, [session?.user?.email, setValue]);
+
+  useEffect(() => {
+  const fetchStates = async () => {
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_LIVE_LINK}/location/all-state`);
+      const data = await res.json();
+      setStates(data.states);
+    } catch (error) {
+      console.error("Failed to fetch states", error);
+    }
+  };
+
+  fetchStates();
+}, []);
+
+useEffect(() => {
+  const fetchCities = async () => {
+    if (!selectedState) return;
+    setCityLoading(true);
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_LIVE_LINK}/location/city-by-id/${selectedState}`);
+      const data = await res.json();
+      setCities(data.city);
+    } catch (error) {
+      console.error("Failed to fetch cities", error);
+    } finally {
+      setCityLoading(false);
+    }
+  };
+
+  fetchCities();
+}, [selectedState]);
 
   const onSubmit = async (data) => {
   //  console.log(data);
@@ -155,14 +191,14 @@ export default function PostForm({ profile }) {
         />
         {errors.phone && <p className="text-red-500">{errors.phone.message}</p>}
 
-        <LocationPicker
+        {/* <LocationPicker
           onChange={(coords) => setValue("location", coords)}
           defaultValue={watch("location")}
-        />
+        /> */}
 
         {/* Hidden input to hold location object */}
-        <input type="hidden" {...register("location.lat")} />
-        <input type="hidden" {...register("location.lng")} />
+        {/* <input type="hidden" {...register("location.lat")} />
+        <input type="hidden" {...register("location.lng")} /> */}
         {/* Title */}
         <input
           {...register("title", { required: "Title is required" })}
@@ -207,6 +243,76 @@ export default function PostForm({ profile }) {
             className="w-full px-4 py-2 border rounded-md"
           />
         )}
+        {/* state and city select box */}
+        <div>
+          <div>
+  <label htmlFor="state" className="block mb-1 font-medium">
+    State
+  </label>
+  <select
+    id="state"
+    className="w-full h-10 rounded-md border pl-3"
+    {...register("state", { required: "State is required" })}
+    onChange={(e) => {
+      const value = e.target.value;
+      setSelectedState(value);
+      setValue("state", value);
+      setValue("city", ""); // Reset city on state change
+    }}
+    defaultValue=""
+  >
+    <option value="" disabled>
+      Select a state
+    </option>
+    {states.map((state) => (
+      <option key={state._id} value={state._id}>
+        {state.name}
+      </option>
+    ))}
+  </select>
+  {errors.state && <p className="text-red-500">{errors.state.message}</p>}
+</div>
+{selectedState && (
+  <div className="mt-3">
+    <label htmlFor="city" className="block mb-1 font-medium">
+      City
+    </label>
+    {cityLoading ? (
+      <p>Loading cities...</p>
+    ) : (
+      <select
+        id="city"
+        className="w-full h-10 rounded-md border pl-3"
+        {...register("city", { required: "City is required" })}
+        defaultValue=""
+      >
+        <option value="" disabled>
+          Select a city
+        </option>
+        {cities.map((city) => (
+          <option key={city._id} value={city._id}>
+            {city.name}
+          </option>
+        ))}
+      </select>
+    )}
+    {errors.city && <p className="text-red-500">{errors.city.message}</p>}
+  </div>
+)}
+        </div>
+        <div>
+  <label htmlFor="address" className="block mb-1 font-medium">
+    Address (Street, Landmark, etc.)
+  </label>
+  <input
+    type="text"
+    id="address"
+    placeholder="Enter full address"
+    className="w-full px-4 py-2 border rounded-md"
+    {...register("address", { required: "Address is required" })}
+  />
+  {errors.address && <p className="text-red-500">{errors.address.message}</p>}
+</div>
 
         {/* Category */}
         <div>
