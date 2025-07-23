@@ -208,16 +208,9 @@ useEffect(() => {
         {errors.title && <p className="text-red-500">{errors.title.message}</p>}
 
         {/* Description */}
-        <textarea
+         <textarea
           {...register("description")}
           placeholder="Description"
-          className="w-full px-4 py-2 border rounded-md"
-        />
-
-        {/* Specification */}
-        <textarea
-          {...register("specification")}
-          placeholder="Specification"
           className="w-full px-4 py-2 border rounded-md"
         />
 
@@ -226,6 +219,15 @@ useEffect(() => {
           type="number"
           {...register("price")}
           placeholder="Price"
+          className="w-full px-4 py-2 border rounded-md"
+        />
+
+       
+
+        {/* Specification */}
+        <textarea
+          {...register("additionalPriceInfo")}
+          placeholder="Additional Price Info"
           className="w-full px-4 py-2 border rounded-md"
         />
 

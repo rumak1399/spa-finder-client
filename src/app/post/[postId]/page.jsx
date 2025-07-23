@@ -20,7 +20,7 @@ async function SinglePost({ params }) {
         <div className="flex flex-col gap-10 border-b border-zinc-200 pb-5">
           <PostDetails post={post && post} />
           <div className="block md:hidden w-full">
-            <ContactInfo phone={post.phone} email={post.email} location={post.location ? post.location : "No Address Added"} />
+            <ContactInfo phone={post.phone} email={post.email} location={post.fullAddress} />
           </div>
           <ActionButtons />
         </div>
