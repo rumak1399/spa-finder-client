@@ -7,16 +7,14 @@ import Image from "next/image";
 import { MessageCircleMore, Store } from "lucide-react";
 import NotAvailable from "../NotAvailable/NotAvailable";
 import { MdFolderOff } from "react-icons/md";
-async function SingleCategoryPage({ categoryId }) {
-  console.log("LINE AT 4", categoryId);
+async function SingleCategoryPage({ categoryName }) {
 
-  const posts = await getPostsByCategories(categoryId);
-  console.log("posts", posts);
+  const posts = await getPostsByCategories(categoryName);
   if (!posts || posts?.length === 0) {
     return (
       <NotAvailable
         message="No posts available for this category"
-        icon={<MdFolderOff/>}
+        icon={<MdFolderOff />}
       />
     );
   }

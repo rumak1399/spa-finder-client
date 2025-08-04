@@ -7,15 +7,15 @@ import { ErrorBoundary } from "@/utils/ErrorBoundary";
 import React, { Suspense } from "react";
 
 const SingleCategory = async ({ params }) => {
-  const { categoryId } = await params;
-  console.log("LINR AT 14 ", categoryId);
+  const { categoryName } = await params;
+  console.log("LINR AT 14 ", categoryName);
 
   return (
     <div className="min-h-screen mx-auto max-w-7xl p-4 ">
       {/* Posts Section */}
       <Suspense fallback={<SpinnerLoading />}>
         <ErrorBoundary fallback={<ErrorDisplay />}>
-          <SingleCategoryPage categoryId={categoryId && categoryId} />
+          <SingleCategoryPage categoryName={categoryName} />
         </ErrorBoundary>
       </Suspense>
     </div>

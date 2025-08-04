@@ -24,40 +24,11 @@ async function Menu() {
             SpaFinder
           </Link>
 
-          <nav className="hidden md:block">
-            <div className="flex gap-8">
-              <Link
-                href="/"
-                className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-              >
-                Home
-              </Link>
-              <Link
-                href="/services"
-                className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-              >
-                Browse Services
-              </Link>
-              <Link
-                href="/about"
-                className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-              >
-                About
-              </Link>
-              <Link
-                href="/contact"
-                className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-              >
-                Contact
-              </Link>
-            </div>
-          </nav>
           <div className="hidden md:block">
-
-          <AuthComponent/>
+            <AuthComponent />
           </div>
           <div className="block md:hidden">
-            <DropdownMenu >
+            <DropdownMenu>
               <DropdownMenuTrigger>
                 <HiOutlineBars3BottomRight size={30} />
               </DropdownMenuTrigger>

@@ -13,10 +13,9 @@ export const getPosts = async () => {
   return res.json();
 };
 
-export async function getPostsByCategories(id) {
-  console.log("action", id);
+export async function getPostsByCategories(slug) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_LIVE_LINK}/post/getpostsbycategory/${id}`,
+    `${process.env.NEXT_PUBLIC_API_LIVE_LINK}/post/getpostsbycategory/categoryslug/${slug}`,
     {
       method: "GET",
       cache: "no-store",
@@ -33,7 +32,9 @@ export async function getPostsByCategories(id) {
 
 export async function getSinglePost(id) {
   // console.log("action", id);
-  console.log(`${process.env.NEXT_PUBLIC_API_LIVE_LINK}/post/getsinglepost/${id}`)
+  console.log(
+    `${process.env.NEXT_PUBLIC_API_LIVE_LINK}/post/getsinglepost/${id}`
+  );
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_LIVE_LINK}/post/getsinglepost/${id}`,
     {

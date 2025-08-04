@@ -14,7 +14,7 @@ export default async function CategoryList() {
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {categories?.data.map((item) => (
           <Link
-            href={`/category/${item?._id}`}
+            href={`/category/${item?.slug}`}
             key={item?._id}
             className="bg-white p-6 rounded-lg shadow hover:shadow-md transition-shadow text-center cursor-pointer"
           >
@@ -26,6 +26,6 @@ export default async function CategoryList() {
     );
   } catch (error) {
     console.error("Failed to load categories:", error);
-    throw new Error("ErrorDisplay"); 
+    throw new Error("ErrorDisplay");
   }
 }
