@@ -43,13 +43,18 @@ function PostDetails({ post }) {
         {post.price && (
           <div className="flex gap-3 items-center font-medium">
             <LuDot />
-            <p>Price: {post.price}</p>
+            <p>
+              Price: <span className="font-bold">{post.price}</span>
+            </p>
           </div>
         )}
         {post.additionalPriceInfo && (
           <div className="flex gap-3 items-center font-medium">
             <LuDot />
-            <p>Price Info: {post.additionalPriceInfo}</p>
+            <p>
+              Price Info:{" "}
+              <span className="font-bold">{post.additionalPriceInfo}</span>
+            </p>
           </div>
         )}
         <div className="flex flex-col md:flex-row gap-3 md:items-center text-md font-medium">
