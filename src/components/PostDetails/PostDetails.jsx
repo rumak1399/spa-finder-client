@@ -40,6 +40,18 @@ function PostDetails({ post }) {
           <LuDot />
           <p>Massage Therapy</p>
         </div>
+        {post.price && (
+          <div className="flex gap-3 items-center font-medium">
+            <LuDot />
+            <p>Price: {post.price}</p>
+          </div>
+        )}
+        {post.additionalPriceInfo && (
+          <div className="flex gap-3 items-center font-medium">
+            <LuDot />
+            <p>Price Info: {post.additionalPriceInfo}</p>
+          </div>
+        )}
         <div className="flex flex-col md:flex-row gap-3 md:items-center text-md font-medium">
           <p className="text-red-500">Closed</p>
           <p>10.00 AM - 8.30 PM </p>
